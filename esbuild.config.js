@@ -29,6 +29,7 @@ async function rebuild() {
   const clients = []
 
   http.createServer((req, res) => {
+    // creates server on port 8082
     return clients.push(
       res.writeHead(200, {
         "Content-Type": "text/event-stream",
@@ -39,6 +40,9 @@ async function rebuild() {
     );
   }).listen(8082);
 
+  //build javascript with the banner configuration option creating a new
+  //EventSource connection to the server and fires reload when a message is
+  //received
   let result = await esbuild.build({
     ...config,
     incremental: true,
@@ -47,6 +51,8 @@ async function rebuild() {
     },
   })
 
+  //Chokidar watches directories for changes, with each change new message is
+  //broadcast to EvenSource server.
   chokidar.watch(watchDirectories).on('all', (event, path) => {
     if (path.includes('javascript')) {
       result.rebuild()
@@ -56,6 +62,8 @@ async function rebuild() {
   });
 }
 
+//Conditional statement to ensure changes made have reload function call, but
+//build for the production environment instead
 if (process.argv.includes("--rebuild")) {
   rebuild()
 } else {
