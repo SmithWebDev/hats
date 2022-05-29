@@ -4,7 +4,7 @@ import "./controllers"
 
 // Connects ActionCable consumer, with MRUJS wrapping CableCar for CableReady
 // usage
-import consumer from "./channel/consumer";
+import consumer from "./channels/consumer";
 import CableReady from "cable_ready";
 import mrujs from "mrujs";
 import { CableCar } from "mrujs/plugins";
