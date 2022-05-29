@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: 'dashboard#show'
+  get 'dashboard/show'
+
+  authenticated :user do
+    root to: 'dashboard#show', as: :user_root
+  end
+
+  devise_scope :user do
+    root to: 'devise/session#new'
+  end
 end
