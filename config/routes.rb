@@ -18,6 +18,6 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
-    root to: 'devise/session#new'
+    root to: 'devise/sessions#new'
   end
 end
